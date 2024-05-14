@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  spreedbackend:
+    image: strukturag/nextcloud-spreed-signaling:master
+    restart: unless-stopped
+    environment:
+      - HTTP_LISTEN=spreedbackend:${TALK_PORT}
+      - COUNTRY=RU
+      - HASH_KEY=youruniquestringyouruniquestringyouruniquestringyouruniquestrin # 32 or 64 long unique string
+      - BLOCK_KEY=youruniquestringyouruniquestring
+      - INTERNAL_SHARED_SECRET_KEY=${TALK_INTERNAL_SECRET}
+      - BACKENDS=cloud
+      - BACKEND_CLOUD_URL=https://cloud.domain.org
+      - BACKEND_CLOUD_SHARED_SECRET=${SIGNALING_SECRET}
+# Janus/WebRTC
+      - USE_JANUS=1
+      - JANUS_URL=ws://janus:8188
+# Turn
+      - TURN_SERVERS=turn:coturn:3478?transport=udp,turn:coturn:3478?transport=tcp
+      - TURN_API_KEY=${TURN_SECRET}
+      - TURN_SECRET=${TURN_SECRET}
+    ports:
+      - ${TALK_PORT}:${TALK_PORT}
+    depends_on:
+      - coturn
+# Janus Webrtc Gatway
+  janus:
+    image: 'canyan/janus-gateway:0.10.7'
+    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus", "--stun-server=coturn:3478", "--full-trickle"]
+    restart: unless-stopped
+    ports:
+      - 8188:8188
+    depends_on:
+      - coturn
+  coturn:
+    image: coturn/coturn:latest
+    command:
+      - "--realm"
+      - ${NC_DOMAIN}
+      - "--static-auth-secret"
+      - ${TURN_SECRET}
+      - "--no-stdout-log"
+      - "--log-file"
+      - "stdout"
+      - "--stale-nonce=600"
+      - "--use-auth-secret"
+      - "--fingerprint"
+      - "--no-software-attribute"
+      - "--no-multicast-peers"
+      - "--no-cli"
+    ports:
+      - 3478:3478
+    volumes:
+      - ./coturn:/var/lib/coturn
+    restart: unless-stopped
+  nextcloud-talk-recording:
+    image: nextcloud/aio-talk-recording:latest
+    init: true
+    ports:
+      - 1234:1234
+    environment:
+      - NC_DOMAIN=${NC_DOMAIN}
+      - HPB_DOMAIN=${NC_DOMAIN}
+      - HPB_PATH=/standalone-signaling/
+      - TZ=${TIMEZONE}
+      - RECORDING_SECRET=${RECORDING_SECRET}
+      - INTERNAL_SECRET=${TALK_INTERNAL_SECRET}
+    shm_size: 2147483648
+    restart: unless-stopped
+    volumes:
+      - nextcloud-talk-recordings:/mnt/datacloud/talk-recordings
+volumes:
+  nextcloud-talk-recordings:
+    external: false
