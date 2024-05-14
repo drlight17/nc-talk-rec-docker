@@ -3,6 +3,7 @@
 - Copy env.example to .env
 - Edit .env to your needs
 - Use nginx reverse proxy
+- Run `docker-compose up -d`
 ---
 Add in nginx.conf in http section:
 ```bash
