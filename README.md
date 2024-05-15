@@ -4,6 +4,7 @@
 - Edit .env to your needs
 - Use nginx reverse proxy
 - Open TURN 3478/tcp and 3478/udp ports in firewall for external access
+- If you want to use external folder as the tmp folder for recordings you must set TMP_FOLDER in .env and chown this folder to recordin user UID from container. Use command `docker exec nextcloud-talk-recording id` to get this UID. 
 - Run `docker-compose up -d`
 ---
 Add in nginx.conf in http section:
