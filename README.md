@@ -1,8 +1,9 @@
-# Short instruction
+# Short deploy instruction
 - Clone this repo.
 - Copy env.example to .env
 - Edit .env to your needs
 - Use nginx reverse proxy
+- Open TURN 3478/tcp and 3478/udp ports in firewall for external access
 - Run `docker-compose up -d`
 ---
 Add in nginx.conf in http section:
@@ -51,3 +52,7 @@ server {
 }
 #...
 ```
+- Fill Talk (Spreed) preferences with the addresses and secrets from .env:
+![image](https://github.com/drlight17/nc-talk-rec-docker/assets/37434652/2e6f863b-f5d4-4988-86cc-e287a13e8370)
+![image](https://github.com/drlight17/nc-talk-rec-docker/assets/37434652/b3a1a441-3f48-4510-8827-5b3c576c1a58)
+
