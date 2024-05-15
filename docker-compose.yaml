@@ -51,11 +51,10 @@ services:
       - "--no-cli"
     ports:
       - 3478:3478
-    volumes:
-      - ./coturn:/var/lib/coturn
     restart: unless-stopped
   nextcloud-talk-recording:
     image: nextcloud/aio-talk-recording:latest
+    container_name: nextcloud-talk-recording
     init: true
     ports:
       - 1234:1234
@@ -69,7 +68,7 @@ services:
     shm_size: 2147483648
     restart: unless-stopped
     volumes:
-      - nextcloud-talk-recordings:/mnt/datacloud/talk-recordings
+      - ${TMP_FOLDER}:/tmp:rw
 volumes:
   nextcloud-talk-recordings:
     external: false
