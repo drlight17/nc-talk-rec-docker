@@ -54,6 +54,6 @@ server {
 #...
 ```
 - Fill Talk (Spreed) preferences with the addresses and secrets from .env:
-![image](https://github.com/drlight17/nc-talk-rec-docker/assets/37434652/2e6f863b-f5d4-4988-86cc-e287a13e8370)
+![330676992-2e6f863b-f5d4-4988-86cc-e287a13e8370](https://github.com/drlight17/nc-talk-rec-docker/assets/37434652/3a354bce-eb24-4ce4-a917-267a433da58e)
 ![image](https://github.com/drlight17/nc-talk-rec-docker/assets/37434652/b3a1a441-3f48-4510-8827-5b3c576c1a58)
 
