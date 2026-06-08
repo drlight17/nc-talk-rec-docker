@@ -56,6 +56,11 @@ services:
     image: nextcloud/aio-talk-recording:latest
     container_name: nextcloud-talk-recording
     init: true
+    group_add:
+      - "109" # this is render group
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128 # edit this if your hw config is different
+      - /dev/dri/card1:/dev/dri/card1 # edit this if your hw config is different
     ports:
       - 1234:1234
     environment:
@@ -69,6 +74,7 @@ services:
     restart: unless-stopped
     volumes:
       - ${TMP_FOLDER}:/tmp:rw
+      - ./start.sh:/start.sh # use this custom start.sh to override h264_vaapi by vp9_vaapi
 volumes:
   nextcloud-talk-recordings:
     external: false
