@@ -53,7 +53,7 @@ services:
       - 3478:3478
     restart: unless-stopped
   nextcloud-talk-recording:
-    image: nextcloud/aio-talk-recording:latest
+    image: nextcloud/aio-talk-recording:20260527_140826 # use this before hw accel will be supported by the latest tagged image
     container_name: nextcloud-talk-recording
     init: true
     group_add:
