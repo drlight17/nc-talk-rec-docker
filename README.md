@@ -4,6 +4,7 @@
 - Edit .env to your needs
 - Use nginx reverse proxy
 - Open TURN 3478/tcp and 3478/udp ports in firewall for external access
+- If you want to use GPU HW accelerated encoding offload - check start.sh and docker-compose.yaml comments in this branch. I hope strukturag/nextcloud-spreed-signaling will support h264_vaapi (mp4 extension) soon. For now (08.06.2026) it is not (recording save causes 400 error while connect to spreedbackend).
 - If you want to use external folder as the tmp folder for recordings you must set TMP_FOLDER in .env and chown this folder to recordin user UID from container. Use command `docker exec nextcloud-talk-recording id` to get this UID. 
 - Run `docker-compose up -d`
 ---
@@ -53,7 +54,6 @@ server {
 }
 #...
 ```
-- If you want to use GPU HW accelerated encoding offload - check start.sh and docker-compose.yaml comments in this branch. I hope strukturag/nextcloud-spreed-signaling will support h264_vaapi (mp4 extension) soon. For now (08.06.2026) it is not (recording save causes 400 error while connect to spreedbackend).
 - Fill Talk (Spreed) preferences with the addresses and secrets from .env:
 ![330676992-2e6f863b-f5d4-4988-86cc-e287a13e8370](https://github.com/drlight17/nc-talk-rec-docker/assets/37434652/3a354bce-eb24-4ce4-a917-267a433da58e)
 ![image](https://github.com/drlight17/nc-talk-rec-docker/assets/37434652/b3a1a441-3f48-4510-8827-5b3c576c1a58)
